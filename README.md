@@ -3,8 +3,7 @@
 A personal collection of solutions to problems from the Canadian Computing Competition (CCC) and related contest practice, implemented in Python. This repository collects solved problems, organized by year and problem name, with short explanations where useful.
 
 - My solved problems on DMOJ: https://dmoj.ca/user/jvhaa/solved
-- My submissions on Codeforces: https://codeforces.com/submissions/jvhaa
-
+  
 ## Table of Contents
 - [About](#about)
 - [Repository structure](#repository-structure)
