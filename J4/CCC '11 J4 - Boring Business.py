@@ -1,73 +1,42 @@
-wellPlan = {}
-for row in range(-1, -201, -1):
-    for col in range(-200, 201):
-        wellPlan[(row, col)] = False
+import sys
 
-wellPlan[(-1, 0)] = True
-wellPlan[(-2, 0)] = True
-wellPlan[(-3, 0)] = True
-wellPlan[(-3, 1)] = True
-wellPlan[(-3, 2)] = True
-wellPlan[(-3, 3)] = True
-wellPlan[(-4, 3)] = True
-wellPlan[(-5, 3)] = True
-wellPlan[(-5, 4)] = True
-wellPlan[(-5, 5)] = True
-wellPlan[(-4, 5)] = True
-wellPlan[(-3, 5)] = True
-wellPlan[(-3, 6)] = True
-wellPlan[(-3, 7)] = True
-wellPlan[(-4, 7)] = True
-wellPlan[(-5, 7)] = True
-wellPlan[(-6, 7)] = True
-wellPlan[(-7, 7)] = True
-wellPlan[(-7, 6)] = True
-wellPlan[(-7, 5)] = True
-wellPlan[(-7, 4)] = True
-wellPlan[(-7, 3)] = True
-wellPlan[(-7, 2)] = True
-wellPlan[(-7, 1)] = True
-wellPlan[(-7, 0)] = True
-wellPlan[(-7, -1)] = True
-wellPlan[(-6, -1)] = True
-wellPlan[(-5, -1)] = True
+position = [0, -1]
+passed = [position.copy()]  # Store a copy of the initial position
+safety = True
 
-# read instructions
-line = input()
-direction = line[0:1]
-distance = eval(line[2:])
+def move(direction, movement):
+    global safety
+    for i in range(movement):
+        if direction == "l":
+            position[0] -= 1
+        elif direction == "r":
+            position[0] += 1
+        elif direction == "u":
+            position[1] += 1
+        elif direction == "d":
+            position[1] -= 1
+        if position in passed and safety:
+            safety = False
+        passed.append(position.copy())  # Append a copy of the current position
 
-ok = True
-row = -5
-col = -1
+move("d", 2)
+move("r", 3)
+move("d", 2)
+move("r", 2)
+move("u", 2)
+move("r", 2)
+move("d", 4)
+move("l", 8)
+move("u", 2)
 
-# do the drilling!
-while ok and direction != "q":
-    dr = 0
-    dc = 0
-    if direction == "l":
-        dc = -1
-    elif direction == "u":
-        dr = 1
-    elif direction == "r":
-        dc = 1
-    elif direction == "d":
-        dr = -1
-
-    while distance > 0:
-        row = row + dr
-        col = col + dc
-        if wellPlan[(row, col)]:
-            ok = False
-        else:
-            wellPlan[(row, col)] = True
-        distance = distance - 1
-
-    if ok:
-        print(col, row, "safe")
+while True:
+    data = sys.stdin.readlines(1)[0].strip().split(" ")
+    direction, movement = data[0], int(data[1])
+    if direction == "q":
+        break
     else:
-        print(col, row, "DANGER")
+        move(direction, movement)
 
-    line = input()
-    direction = line[0:1]
-    distance = eval(line[2:])
+    print(" ".join(str(x) for x in position), " safe" if safety else " DANGER")
+    if not safety:
+        break
